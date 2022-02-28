@@ -9,6 +9,57 @@ public class MyLibrary {
         self.weatherService = weatherService ?? WeatherServiceImpl()
     }
 
+    public func printTemperature(token: String, completion: @escaping (Int?) -> Void) {
+        var returnValue = 0
+        weatherService.callSecureEndpointWeather(token: token) { response in
+            switch response {
+            case let .failure(error):
+                print(error)
+                print("Well well well")
+
+            case let .success(temperature):
+                print(temperature)
+                returnValue = temperature
+                completion(returnValue)
+            }
+        }
+        //return returnValue
+    }
+
+    public func printGreeting(token: String, completion: @escaping (String?) -> Void) {
+        var returnValue = ""
+        weatherService.callSecureEndpointHello(token: token) { response in
+            switch response {
+            case let .failure(error):
+                print(error)
+                print("Well well well")
+
+            case let .success(greeting):
+                print(greeting)
+                returnValue = greeting
+                completion(returnValue)
+            }
+        }
+        //return returnValue
+    }
+
+    public func printToken(completion: @escaping (String?) -> Void) {
+        var returnValue = ""
+        weatherService.retrieveToken { response in
+            switch response {
+            case let .failure(error):
+                print(error)
+                print("Well well well")
+
+            case let .success(token):
+                print(token)
+                returnValue = token
+                completion(returnValue)
+            }
+        }
+        //return returnValue
+    }
+
     public func isLucky(_ number: Int, completion: @escaping (Bool?) -> Void) {
         // Check the simple case first: 3, 5 and 8 are automatically lucky.
         if number == 3 || number == 5 || number == 8 {
@@ -42,3 +93,4 @@ public class MyLibrary {
         return String(lhs).contains(rhs)
     }
 }
+ 

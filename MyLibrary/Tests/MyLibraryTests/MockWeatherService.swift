@@ -25,4 +25,17 @@ class MockWeatherService: WeatherService {
             completion(.failure(error404))
         }
     }
+
+    func retrieveToken(completion: @escaping (Result<String, Error>) -> ()) {
+
+    }
+
+    func callSecureEndpointHello(token: String, completion: @escaping (Result<String, Error>) -> ()) {
+
+    }
+
+    func callSecureEndpointWeather(token: String, completion: @escaping (Result<Int, Error>) -> ()) {
+
+    }
 }
+
