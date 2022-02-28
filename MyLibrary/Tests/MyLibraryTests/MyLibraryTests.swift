@@ -2,6 +2,61 @@ import XCTest
 import MyLibrary
 
 final class MyLibraryTests: XCTestCase {
+
+    func testHello() throws {
+        // Given
+        let myLibrary = MyLibrary()
+        let expectation1 = XCTestExpectation(description: "We asked about the access token and heard back 🎄")
+        let expectation2 = XCTestExpectation(description: "We asked about the greeting and heard back 🎄")
+        var retrievedToken: String?
+        var returnedGreeting: String?
+
+        // When
+        myLibrary.printToken { token in
+            retrievedToken = token
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 5)
+
+        myLibrary.printGreeting(token: retrievedToken ?? "") { greeting in
+            returnedGreeting = greeting
+            expectation2.fulfill()
+        }
+        wait(for: [expectation2], timeout: 5)
+
+        // Then
+        XCTAssertNotNil(returnedGreeting)
+        XCTAssert(returnedGreeting == "Hello, from Shivam")
+    }
+
+    func testWeather() throws {
+        // Given
+        let myLibrary = MyLibrary()
+        let expectation1 = XCTestExpectation(description: "We asked about the access token and heard back 🎄")
+        let expectation2 = XCTestExpectation(description: "We asked about the greeting and heard back 🎄")
+        var retrievedToken: String?
+        var returnedTemperature: Int?
+
+        // When
+        myLibrary.printToken { token in
+            retrievedToken = token
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 5)
+
+        myLibrary.printTemperature(token: retrievedToken ?? "") { temp in
+            returnedTemperature = temp
+            expectation2.fulfill()
+        }
+        wait(for: [expectation2], timeout: 5)
+
+        // Then
+        XCTAssertNotNil(returnedTemperature)
+        // Hardcoded JSON temperature is 45.14
+        XCTAssert(returnedTemperature == 45)
+    }
+
+
     func testIsLuckyBecauseWeAlreadyHaveLuckyNumber() throws {
         // Given
         let mockWeatherService = MockWeatherService(
@@ -102,3 +157,4 @@ final class MyLibraryTests: XCTestCase {
     }
 
 }
+
